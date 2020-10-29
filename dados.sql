@@ -1,36 +1,27 @@
-
 -- Pessoa Talbe
 CREATE TABLE Pessoa (
-    cpf INT  UNIQUE NOT NULL,
+    cpf VARCHAR(11)  UNIQUE NOT NULL,
     nome VARCHAR(45),
     PRIMARY KEY(cpf)
 );
---Multi valued attribute table
-CREATE TABLE Obra_Pessoa (
-    cpf INT UNIQUE NOT NULL,
-    ID_Obra INT UNIQUE NOT NULL,
-    PRIMARY KEY(cpf, ID_Obra),
-    FOREIGN KEY (cpf) REFERENCES Pessoa(cpf),
-    FOREIGN KEY (ID_Obra) REFERENCES Obra(ID_Obra)
-);
---Disjoint
+-- Disjoint
 CREATE TABLE Cliente (
-    cpf INT UNIQUE NOT NULL,
+    cpf VARCHAR(11) UNIQUE NOT NULL,
     status_pagamento VARCHAR(15) NOT NULL,
     PRIMARY KEY(cpf),
     FOREIGN KEY (cpf) REFERENCES Pessoa(cpf)
 );
 
---Disjoint
+-- Disjoint
 CREATE TABLE Funcionario (
-    cpf INT UNIQUE NOT NULL,
+    cpf VARCHAR(11) UNIQUE NOT NULL,
     salario DECIMAL(7,2),
-    data_admissao DATE NOT NULL,
+    data_admissao DATETIME NOT NULL,
     PRIMARY KEY(cpf),
     FOREIGN KEY (cpf) REFERENCES Pessoa(cpf)
 );
 
---Obra table creation
+-- Obra table creation
 CREATE TABLE Obra (
     ID_Obra INT UNIQUE NOT NULL,
     tipo VARCHAR(15) NOT NULL,
@@ -41,75 +32,58 @@ CREATE TABLE Obra (
     PRIMARY KEY(ID_Obra)
 );
 
---Multi valued attribute
+-- Multi valued attribute
 CREATE TABLE Obra_Clientes (
     ID_Obra INT UNIQUE NOT NULL,
-    ID_Cliente INT UNIQUE NOT NULL,
+    ID_Cliente VARCHAR(11) UNIQUE NOT NULL,
     PRIMARY KEY(ID_Obra, ID_Cliente),
     FOREIGN KEY (ID_Obra) REFERENCES Obra(ID_Obra),
     FOREIGN KEY (ID_Cliente) REFERENCES Cliente (cpf)
 );
 
---Multi valued attribute
-CREATE TABLE Obra_Documentos (
-    ID_Obra INT UNIQUE NOT NULL,
-    ID_Documento INT UNIQUE NOT NULL,
-    PRIMARY KEY(ID_Obra, ID_Documento),
-    FOREIGN KEY (ID_Obra) REFERENCES Obra(ID_Obra),
-    FOREIGN KEY (ID_Documento) REFERENCES Documento (ID_Documento)
-);
 
---Documento table creation
+-- Documento table creation
 CREATE TABLE Documento (
     ID_Documento INT UNIQUE NOT NULL,
-    ID_Responsavel INT UNIQUE NOT NULL,
-    satatus VARCHAR(15) NOT NULL,
+    ID_Responsavel VARCHAR(11) NOT NULL,
+    situacao VARCHAR(15) NOT NULL,
     ID_Obra INT UNIQUE NOT NULL,
     PRIMARY KEY(ID_Documento),
     FOREIGN KEY (ID_Obra) REFERENCES Obra(ID_Obra),
     FOREIGN KEY (ID_Responsavel) REFERENCES Pessoa (cpf)
 );
 
---Fornecedor table creation
+-- Fornecedor table creation
 CREATE TABLE Fornecedor (
     ID_Fornecedor INT UNIQUE NOT NULL,
-    nome VARCHAR(45)  NOT NULL,
+    nome VARCHAR(45) UNIQUE NOT NULL,
     PRIMARY KEY(ID_Fornecedor)
     
 );
 
---Multi valued attribute
-CREATE TABLE Fornecedor_Obra (
-    ID_Fornecedor INT UNIQUE NOT NULL,
-    ID_Obra INT UNIQUE NOT NULL,
-    PRIMARY KEY(ID_Fornecedor, ID_Obra),
-    FOREIGN KEY (ID_Obra) REFERENCES Obra(ID_Obra),
-    FOREIGN KEY (ID_Fornecedor) REFERENCES Fornecedor (ID_Fornecedor)
-);
-
---Multi valued attribute
+-- Multi valued attribute
 CREATE TABLE Fornecedor_Produtos (
-    ID_Fornecedor INT UNIQUE NOT NULL,
+    ID_Fornecedor INT NOT NULL,
     produtos VARCHAR(45)  NOT NULL,
     PRIMARY KEY(ID_Fornecedor, produtos),
     FOREIGN KEY (ID_Fornecedor) REFERENCES Fornecedor(ID_Fornecedor)
 );
 
---Participa relation table creation
+-- Participa relation table creation
 CREATE TABLE Participa (
-    cpf INT UNIQUE NOT NULL,
-    ID_Obra INT UNIQUE NOT NULL,
+    cpf VARCHAR(11) UNIQUE NOT NULL,
+    ID_Obra INT NOT NULL,
     permissao VARCHAR(15) NOT NULL,
     PRIMARY KEY(cpf, ID_Obra),
     FOREIGN KEY (cpf) REFERENCES Pessoa(cpf),
     FOREIGN KEY (ID_Obra) REFERENCES Obra(ID_Obra)
 );
 
---Fornece relation table creation
+-- Fornece relation table creation
 CREATE TABLE Fornece (
-    ID_Obra INT UNIQUE NOT NULL,
-    ID_Fornecedor INT UNIQUE NOT NULL,
-    expiracao_contrato DATE NOT NULL,
+    ID_Obra INT NOT NULL,
+    ID_Fornecedor INT NOT NULL,
+    expiracao_contrato DATETIME NOT NULL,
     PRIMARY KEY(ID_Obra, ID_Fornecedor),
     FOREIGN KEY (ID_Obra) REFERENCES Obra(ID_Obra),
     FOREIGN KEY (ID_Fornecedor) REFERENCES Fornecedor (ID_Fornecedor)
