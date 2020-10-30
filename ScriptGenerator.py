@@ -244,7 +244,7 @@ fd = open ("InsertQueries.sql","w")
 generateProdutores(fd)
 generateProdutos(fd)
 
-for i in range (0,500):
+for i in range (0,1000):
     generateQuery(fd)
 
 fd.close()
