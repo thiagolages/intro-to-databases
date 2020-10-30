@@ -29,7 +29,7 @@ CREATE TABLE Obra (
     status_obra VARCHAR(45) NOT NULL,
     ID_Gerente INT UNIQUE NOT NULL,
     ID_Engenheiro INT UNIQUE NOT NULL,
-    PRIMARY KEY(ID_Obra)
+    PRIMARY KEY(ID_Obra)    
 );
 
 -- Multi valued attribute

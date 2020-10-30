@@ -156,7 +156,6 @@ def generateQuery(fd):
 
     
     fornecedores_obra = []
-
     for i in range(0,len(fornecedores)//2):
         data_expiracao = str(generate_date_max())
         Id_Fornecedor = ids[random.randrange(0,len(ids))]
