@@ -40,22 +40,22 @@ def generateCPF():
         if i == 3:
             CPF += cont*pow(10,i+2)
             cont+=1
-        elif i == 7:
+        elif i == 4:
             CPF += aux_dig*pow(10,i+2)
             if cont == 9:
                 aux_dig+=1
                 cont = 0
-        elif i == 9:
-            CPF+= random.randrange(1,10) * pow(10,i+2)
+        elif i == 8:
+            CPF+= random.randrange(1,9) * pow(10,i+2)
         else:
             CPF+= random.randrange(0,10) * pow(10,i+2)
-    
+
     #calculo dos digitos verificadores
 
     ver1 = 0
     for i in range (1,10):
         ver1 += CPF//pow(10,i+1) %10 * (10 - i)
-    
+
     ver1 = ver1%11
     ver1 = ver1%10
     CPF += ver1*10
@@ -64,12 +64,10 @@ def generateCPF():
 
     for i in range (0,9):
         ver2 += CPF//pow(10,i+1) %10 * (9-i)
-    
+
     ver2 = ver2%11
     ver2 = ver2%10
     CPF += ver2
-
-
 
     return CPF
 
@@ -85,7 +83,7 @@ def generate_nome ():
     lnome2 = sobrenome [random.randrange(0,len(sobrenome))]
     while lnome1 == lnome2:
         lnome2 = sobrenome [random.randrange(0,len(sobrenome))]
-    return pnome + " " + lnome1 + " " + lnome2 
+    return pnome + " " + lnome1 + " " + lnome2
 
 def generate_localizacao():
     return localizacoes[random.randrange(0,len(localizacoes))]
@@ -141,7 +139,7 @@ def generateProdutos(fd):
 def generateQuery(fd):
 
     global cont2
-    
+
 
     Id_Obra = str(generateId())
     tipo_obra = generate_tipo()
@@ -149,12 +147,12 @@ def generateQuery(fd):
     obra_status = generate_status_obra()
     Id_Gerente = str(generateId())
     Id_Engenheiro = str(generateId())
-    
+
     obra  = "INSERT INTO Obra (ID_Obra,tipo,localizacao,status_obra,ID_Gerente, ID_Engenheiro) VALUES (" + Id_Obra + ",\"" + tipo_obra + "\",\"" + localizacao + "\",\"" + obra_status + "\"," + Id_Gerente + "," + Id_Engenheiro +");\n"
 
     fd.write(obra)
 
-    
+
     fornecedores_obra = []
     for i in range(0,len(fornecedores)//2):
         data_expiracao = str(generate_date_max())
@@ -171,12 +169,12 @@ def generateQuery(fd):
     pessoa = "INSERT INTO Pessoa (cpf,nome) VALUES (" + cpf + ",\"" + nome +"\");\n"
 
     fd.write(pessoa)
-    
+
     permissao = generate_permissao()
     participa = "INSERT INTO  Participa (cpf,ID_Obra,    permissao) VALUES ("+ cpf + "," + Id_Obra + ",\"" + permissao +"\");\n"
 
     fd.write(participa)
-    
+
     pagamento = generate_pagamento()
 
     cliente = "INSERT INTO Cliente (cpf,status_pagamento) VALUES (" + cpf + ",\"" + pagamento + "\");\n"
@@ -193,7 +191,7 @@ def generateQuery(fd):
     pessoa = "INSERT INTO Pessoa (cpf,nome) VALUES (" + cpf + ",\"" + nome +"\");\n"
 
     fd.write(pessoa)
-    
+
     permissao = generate_permissao()
     participa = "INSERT INTO  Participa (cpf,ID_Obra,    permissao) VALUES ("+ cpf + "," + Id_Obra + ",\"" + permissao +"\");\n"
 
@@ -211,12 +209,12 @@ def generateQuery(fd):
 
     if (len(cpfs) > 20 and cont2%2 == 0):
         cpf = str(cpfs [random.randrange(0,len(cpfs))])
-    
+
     Id_Documento = str(generateId())
     situacao = generate_situacao()
     documento = "INSERT INTO Documento (ID_Documento,    ID_Responsavel,situacao,ID_Obra) VALUES (" + Id_Documento + "," + cpf + ",\"" + situacao + "\"," + Id_Obra + ");\n"
     fd.write(documento)
-    
+
     max = random.randrange (5,20)
     for i in range(0,max):
         cpf = str(generateCPF())
@@ -224,7 +222,7 @@ def generateQuery(fd):
         pessoa = "INSERT INTO Pessoa (cpf,nome) VALUES (" + cpf + ",\"" + nome +"\");\n"
 
         fd.write(pessoa)
-        
+
         permissao = generate_permissao()
         participa = "INSERT INTO  Participa (cpf,ID_Obra,    permissao) VALUES ("+ cpf + "," + Id_Obra + ",\"" + permissao +"\");\n"
 
@@ -244,8 +242,7 @@ fd = open ("InsertQueries.sql","w")
 generateProdutores(fd)
 generateProdutos(fd)
 
-for i in range (0,500):
+for i in range (0,1000):
     generateQuery(fd)
 
 fd.close()
-
