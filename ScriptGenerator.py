@@ -13,7 +13,7 @@ status_pagamento = ("Autorizado","Bloqueado","Nao efetuado")
 fornecedores = ("Leroy Merlin","Telhanorte","Dicico","Taqi","Duas Irmas","Patria Unida")
 produtos = ("Cimento","Areia","Pedra Brita","Aditivos","Concreto","Cal","Argamassa","Aco","Tijolo Ceramico","Bloco de Concreto","Madeira","Telha","Tinta","Portas","Janelas","Pisos","Revestimento","Materiais Hidraulicos","Materiais Eletricos")
 nomes = ("Laura","Beatriz","Maria","Julia","Alice","Mariana","Larissa","Maria Eduarda","Sofia","Isabela","Helena","Camila","Lara","Valentina","Leticia","Amanda","Yasmim","Rebeca","Juliana","Bruna","Cecilia","Fernanda","Isadora","Lorena","Livia","Manuela","Vitoria","Bianca","Miguel","Lucas","Guilherme","Gabriel","Arthur","Enzo","Rafael","Joao","Gustavo","Pedro","Bernardo","Matheus","Davi","Heitor","Henrique","Bruno","Samuel","Felipe","Lorenzo","Benjamin","Vinicius","Rodrigo","Eduardo","Diego","Antonio","Leonardo","Noah","Nicolas","Daniel","Thiago")
-sobrenome = ("Fernandes", "Santana", "Carvalho", "Martins", "Santos", "Boaventura", "Oliveira", "Moraes", "Leao", "Garcia", "Alves", "Costa", "Oliveira", "Martinez", "Novaes", "Oliveira", "Araújo", "Maia", "Vasconcelos", "Goncalves", "Guimaraes", "Menezes", "Sampaio", "Cavalcante", "Lacerda", "Mello", "Moraes", "Muniz", "Figueira", "Paes", "Lima", "Marques", "Duarte", "Vasconcelos", "Vieira", "Souza", "Soares", "Silva", "Duarte", "Morais", "Gomes", "Paiva", "Junqueira", "Queiroz", "Barreto", "Campos", "Pilar", "Chaves", "Lessa", "Garcia", "Frota", "Xavier", "Ribeiro")
+sobrenome = ("Fernandes", "Santana", "Carvalho", "Martins", "Santos", "Boaventura", "Oliveira", "Moraes", "Leao", "Garcia", "Alves", "Costa", "Oliveira", "Martinez", "Novaes", "Oliveira", "Araujo", "Maia", "Vasconcelos", "Goncalves", "Guimaraes", "Menezes", "Sampaio", "Cavalcante", "Lacerda", "Mello", "Moraes", "Muniz", "Figueira", "Paes", "Lima", "Marques", "Duarte", "Vasconcelos", "Vieira", "Souza", "Soares", "Silva", "Duarte", "Morais", "Gomes", "Paiva", "Junqueira", "Queiroz", "Barreto", "Campos", "Pilar", "Chaves", "Lessa", "Garcia", "Frota", "Xavier", "Ribeiro")
 
 ids = []
 cpfs = []
@@ -36,16 +36,41 @@ def generateCPF():
     CPF = 0
     global cont
     global aux_dig
-    for i in range(0,11):
+    for i in range(0,9):
         if i == 3:
-            CPF += cont*pow(10,i)
+            CPF += cont*pow(10,i+2)
             cont+=1
         elif i == 7:
-            CPF += aux_dig*pow(10,i)
+            CPF += aux_dig*pow(10,i+2)
             if cont == 9:
                 aux_dig+=1
+                cont = 0
+        elif i == 9:
+            CPF+= random.randrange(1,10) * pow(10,i+2)
         else:
-            CPF+= random.randrange(0,10) * pow(10,i)
+            CPF+= random.randrange(0,10) * pow(10,i+2)
+    
+    #calculo dos digitos verificadores
+
+    ver1 = 0
+    for i in range (1,10):
+        ver1 += CPF//pow(10,i+1) %10 * (10 - i)
+    
+    ver1 = ver1%11
+    ver1 = ver1%10
+    CPF += ver1*10
+
+    ver2 = 0
+
+    for i in range (0,9):
+        ver2 += CPF//pow(10,i+1) %10 * (9-i)
+    
+    ver2 = ver2%11
+    ver2 = ver2%10
+    CPF += ver2
+
+
+
     return CPF
 
 def generate_salario_eng():
