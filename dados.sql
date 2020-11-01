@@ -15,8 +15,8 @@ CREATE TABLE `documento` (
   UNIQUE KEY `ID_Documento_UNIQUE` (`ID_Documento`),
   UNIQUE KEY `ID_Obra_UNIQUE` (`ID_Obra`),
   KEY `Responsavel_idx` (`ID_Responsavel`),
-  CONSTRAINT `Obra` FOREIGN KEY (`ID_Obra`) REFERENCES `obra` (`ID_Obra`) ON DELETE RESTRICT ON UPDATE CASCADE,
-  CONSTRAINT `Responsavel` FOREIGN KEY (`ID_Responsavel`) REFERENCES `funcionario` (`cpf`) ON DELETE RESTRICT ON UPDATE CASCADE
+  CONSTRAINT `Obra` FOREIGN KEY (`ID_Obra`) REFERENCES `obra` (`ID_Obra`) ON DELETE CASCADE ON UPDATE RESTRICT,
+  CONSTRAINT `Responsavel` FOREIGN KEY (`ID_Responsavel`) REFERENCES `funcionario` (`cpf`) ON DELETE RESTRICT ON UPDATE RESTRICT
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE `fornece` (
@@ -25,8 +25,8 @@ CREATE TABLE `fornece` (
   `expiracao_contrato` datetime NOT NULL,
   PRIMARY KEY (`ID_Obra`,`ID_Fornecedor`),
   KEY `Forneceddor_idx` (`ID_Fornecedor`),
-  CONSTRAINT `Fornecedor_For` FOREIGN KEY (`ID_Fornecedor`) REFERENCES `fornecedor` (`ID_Fornecedor`) ON DELETE RESTRICT ON UPDATE CASCADE,
-  CONSTRAINT `Obra_For` FOREIGN KEY (`ID_Obra`) REFERENCES `obra` (`ID_Obra`) ON DELETE RESTRICT ON UPDATE CASCADE
+  CONSTRAINT `Fornecedor_For` FOREIGN KEY (`ID_Fornecedor`) REFERENCES `fornecedor` (`ID_Fornecedor`) ON DELETE CASCADE ON UPDATE RESTRICT,
+  CONSTRAINT `Obra_For` FOREIGN KEY (`ID_Obra`) REFERENCES `obra` (`ID_Obra`) ON DELETE CASCADE ON UPDATE RESTRICT
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE `fornecedor` (
@@ -72,7 +72,7 @@ CREATE TABLE `obra_clientes` (
   PRIMARY KEY (`ID_Obra`,`ID_Cliente`),
   UNIQUE KEY `ID_Cliente_UNIQUE` (`ID_Cliente`),
   UNIQUE KEY `ID_Obra_UNIQUE` (`ID_Obra`),
-  CONSTRAINT `ID_Cliente_ObraCli` FOREIGN KEY (`ID_Cliente`) REFERENCES `cliente` (`cpf`) ON DELETE RESTRICT ON UPDATE CASCADE,
+  CONSTRAINT `ID_Cliente_ObraCli` FOREIGN KEY (`ID_Cliente`) REFERENCES `cliente` (`cpf`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `ID_Obra_ObraCli` FOREIGN KEY (`ID_Obra`) REFERENCES `obra` (`ID_Obra`) ON DELETE RESTRICT ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -82,8 +82,8 @@ CREATE TABLE `participa` (
   `permissao` varchar(15) NOT NULL,
   PRIMARY KEY (`cpf`,`ID_Obra`),
   KEY `ID_Obra_idx` (`ID_Obra`),
-  CONSTRAINT `cpf_Part` FOREIGN KEY (`cpf`) REFERENCES `pessoa` (`cpf`) ON DELETE RESTRICT ON UPDATE CASCADE,
-  CONSTRAINT `ID_Obra_Part` FOREIGN KEY (`ID_Obra`) REFERENCES `obra` (`ID_Obra`) ON DELETE RESTRICT ON UPDATE CASCADE
+  CONSTRAINT `cpf_Part` FOREIGN KEY (`cpf`) REFERENCES `pessoa` (`cpf`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `ID_Obra_Part` FOREIGN KEY (`ID_Obra`) REFERENCES `obra` (`ID_Obra`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE `pessoa` (
